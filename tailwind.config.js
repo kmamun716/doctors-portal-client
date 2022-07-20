@@ -9,10 +9,9 @@ module.exports = {
       {
         mytheme: {
           primary: "#0FCFEC",
-
           secondary: "#19D3AE",
-
-          info: "#3A4256"
+          info: "#3A4256",
+          banner:'#D4D9E3'
         },
       },
     ],

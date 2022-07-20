@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import RequireAuth from "./component/Auth/RequireAuth";
 import Footer from "./component/Shared/Footer/Footer";
 import Header from "./component/Shared/Header/Header";
 import About from "./pages/About/About";
@@ -13,7 +12,7 @@ import Reviews from "./pages/Reviews/Reviews";
 
 function App() {
   return (
-    <div className="App">
+    <div className="text-black">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -25,11 +24,17 @@ function App() {
         <Route
           path="/appointment"
           element={
+              <Appointment />
+          }
+        />
+        {/* <Route
+          path="/appointment"
+          element={
             <RequireAuth>
               <Appointment />
             </RequireAuth>
           }
-        />
+        /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
