@@ -24,7 +24,9 @@ const Login = () => {
   let signInErrorMessage;
 
   useEffect(()=>{    
-    navigate(from, { replace: true });
+    if(user || Euser){
+      navigate(from, { replace: true });
+    }
   },[user, Euser, from, navigate])
 
   if(loading || Eloading || sending){
