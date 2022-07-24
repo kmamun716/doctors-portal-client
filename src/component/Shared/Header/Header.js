@@ -1,7 +1,11 @@
+import { signOut } from "firebase/auth";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useLocation } from "react-router-dom";
+import auth from "../../../firebase.config";
 
 const Header = () => {
+  const [user] = useAuthState(auth);
   const location = useLocation();
   return (
     <div>
@@ -33,7 +37,7 @@ const Header = () => {
                   <li><Link to='/appointment' className={location.pathname==='/appointment'?'btn hover:bg-sky-700':''}>Appointment</Link></li>
                   <li><Link to='/reviews' className={location.pathname==='/reviews'?'btn hover:bg-sky-700':''}>Reviews</Link></li>
                   <li><Link to='/contact-us' className={location.pathname==='/contact-us'?'btn hover:bg-sky-700':''}>Contact Us</Link></li>
-                  <li><Link to='/login' className={location.pathname==='/login'?'btn hover:bg-sky-700':''}>Login</Link></li>
+                  <li>{user?.email ? <p>Log Out</p>: <Link to='/login' className={location.pathname==='/login'?'btn hover:bg-sky-700':''}>Login</Link>}</li>
             </ul>
           </div>
           <Link to='/' className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
@@ -45,7 +49,7 @@ const Header = () => {
           <li><Link to='/appointment' className={location.pathname==='/appointment'?'btn hover:bg-sky-700':''}>Appointment</Link></li>
           <li><Link to='/reviews' className={location.pathname==='/reviews'?'btn hover:bg-sky-700':''}>Reviews</Link></li>
           <li><Link to='/contact-us' className={location.pathname==='/contact-us'?'btn hover:bg-sky-700':''}>Contact Us</Link></li>
-          <li><Link to='/login' className={location.pathname==='/login'?'btn hover:bg-sky-700':''}>Login</Link></li>
+          <li>{user?.email ? <p onClick={()=>signOut(auth)}>Log Out</p>: <Link to='/login' className={location.pathname==='/login'?'btn hover:bg-sky-700':''}>Login</Link>}</li>
           </ul>
         </div>
       </div>
