@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
@@ -8,11 +8,13 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../component/Shared/Loading/Loading";
 import auth from "../../firebase.config";
+import ResetPassword from "./ResetPassword";
 
 const Login = () => {
+  const [resetPasswordModal, setResetPasswordModal] = useState(false)
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, Euser, Eloading, Eerror] = useSignInWithEmailAndPassword(auth);
-  const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(auth);
+  const [sending, resetError] = useSendPasswordResetEmail(auth);
   const {
     register,
     formState: { errors },
@@ -29,12 +31,12 @@ const Login = () => {
     }
   },[user, Euser, from, navigate])
 
-  if(loading || Eloading || sending){
+  if(loading || Eloading){
     return <Loading/>
   }
 
-  if(error || Eerror || resetError){
-    const erroMessage = error?.message || Eerror?.message || resetError?.message;
+  if(error || Eerror){
+    const erroMessage = error?.message || Eerror?.message;
     const splitErrorMessage = erroMessage.split(":");
     signInErrorMessage = <p className="text-red-500">{splitErrorMessage[1]}</p>
   }
@@ -42,7 +44,10 @@ const Login = () => {
     const {email, password} = data;
     signInWithEmailAndPassword(email, password);
   };  
-
+  const handleResetPassword=()=>{
+    setResetPasswordModal(!resetPasswordModal)
+  }
+  console.log(resetPasswordModal)
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card w-96 bg-base-100 shadow-xl">
@@ -81,7 +86,8 @@ const Login = () => {
           </form>
           {signInErrorMessage}
           <p>New To Doctors Portal? <Link className="text-primary" to='/register'>Create New Account</Link></p>
-          <p onClick={()=>sendPasswordResetEmail()}>Forgot Password</p>
+          <label style={{'cursor':'pointer'}} onClick={handleResetPassword}>Reset Password</label>
+          {resetPasswordModal && <ResetPassword/>}
           <div className="divider">OR</div>
           <button
             onClick={() => signInWithGoogle()}
