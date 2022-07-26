@@ -7,6 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../component/Shared/Loading/Loading";
+import useToken from '../../customHooks/useToken';
 import auth from "../../firebase.config";
 import ResetPassword from "./ResetPassword";
 
@@ -15,6 +16,7 @@ const Login = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, Euser, Eloading, Eerror] = useSignInWithEmailAndPassword(auth);
   const [sending, resetError] = useSendPasswordResetEmail(auth);
+  const [token] = useToken(user || Euser);
   const {
     register,
     formState: { errors },
@@ -26,10 +28,10 @@ const Login = () => {
   let signInErrorMessage;
 
   useEffect(()=>{    
-    if(user || Euser){
+    if(token){
       navigate(from, { replace: true });
     }
-  },[user, Euser, from, navigate])
+  },[token, from, navigate])
 
   if(loading || Eloading){
     return <Loading/>
@@ -47,7 +49,6 @@ const Login = () => {
   const handleResetPassword=()=>{
     setResetPasswordModal(!resetPasswordModal)
   }
-  console.log(resetPasswordModal)
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card w-96 bg-base-100 shadow-xl">
