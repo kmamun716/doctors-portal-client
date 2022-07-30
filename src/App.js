@@ -8,10 +8,13 @@ import Header from "./component/Shared/Header/Header";
 import About from "./pages/About/About";
 import Appointment from "./pages/Appointment/Appointment";
 import ContactUs from "./pages/ContactUs/ContactUs";
+import AddDoctor from "./pages/Dashboard/AddDoctor";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import ManageDoctors from "./pages/Dashboard/ManageDoctors";
 import MyAppointments from "./pages/Dashboard/MyAppointments";
 import MyHistory from "./pages/Dashboard/MyHistory";
 import MyReview from "./pages/Dashboard/MyReview";
+import Payment from "./pages/Dashboard/Payment";
 import Users from "./pages/Dashboard/Users";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -42,6 +45,10 @@ function App() {
           <Route path="review" element={<MyReview/>} />
           <Route path="history" element={<MyHistory/>} />
           <Route path="users" element={<RequireAdmin><Users/></RequireAdmin>} />
+          <Route path="add-doctor" element={<RequireAdmin><AddDoctor/></RequireAdmin>} />
+          <Route path="manage-doctor" element={<RequireAdmin><ManageDoctors/></RequireAdmin>} />
+          <Route path="manage-doctor" element={<RequireAdmin><ManageDoctors/></RequireAdmin>} />
+          <Route path="payment/:id" element={<Payment/>} />
         </Route>
         <Route
           path="/appointment"

@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const User = ({ index, user, refetch }) => {
   const handleMakeAdmin = (email) => {
-    fetch(`http://localhost:4000/doctorsRoute/user/makeAdmin/${email}`, {
+    fetch(`https://pure-savannah-52177.herokuapp.com/doctorsRoute/user/makeAdmin/${email}`, {
       method: "PUT",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -16,6 +16,23 @@ const User = ({ index, user, refetch }) => {
           refetch();
         } else {
           toast.error("You dont have permission to make admin");
+        }
+      });
+  };
+  const handleRemoveAdmin = (email) => {
+    fetch(`https://pure-savannah-52177.herokuapp.com/doctorsRoute/user/removeAdmin/${email}`, {
+      method: "PUT",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          toast.success("Successfully Remove from Admin");
+          refetch();
+        } else {
+          toast.error("You dont have permission to remove admin");
         }
       });
   };
@@ -36,7 +53,7 @@ const User = ({ index, user, refetch }) => {
       </td>
       <td>
         {user.role === "admin" && (
-          <button className="btn btn-warning btn-xs">Remove Admin</button>
+          <button onClick={() => handleRemoveAdmin(user.email)} className="btn btn-warning btn-xs">Remove Admin</button>
         )}
       </td>
       <td>

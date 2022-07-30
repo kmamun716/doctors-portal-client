@@ -3,7 +3,7 @@ const useSetAdmin = (user) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminLoading, setAdminLoading] = useState(true);
   useEffect(() => {
-    fetch(`http://localhost:4000/doctorsRoute/admin/${user?.email}`, {
+    fetch(`https://pure-savannah-52177.herokuapp.com/doctorsRoute/admin/${user?.email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
